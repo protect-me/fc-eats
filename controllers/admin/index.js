@@ -19,6 +19,6 @@ router.get("/shops/delete/:id", ctrl.get_shops_delete);
 // 메뉴 작성
 router.post("/shops/detail/:id", ctrl.add_menu);
 // 메뉴 삭제
-// router.get("/shops/delete/:shop_id/:menu_id", ctrl.remove_menu);
+router.get("/shops/delete/:shop_id/:menu_id", ctrl.remove_menu);
 
 module.exports = router;
