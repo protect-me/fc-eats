@@ -23,6 +23,14 @@
 
                 <hr />
                 메뉴 작성하기
+
+                <ul>
+                    {% for menu in shop.Menu %}
+                    <li>
+                        {{ menu.name }} // {{ menu.price }}원
+                    </li>
+                    {% endfor%}
+                </ul>
                 <form action="" method="post">
                     <div class="col-xs-3">
                         메뉴명 : <input type="text" class="form-control" name="name" required />

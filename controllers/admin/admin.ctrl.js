@@ -23,7 +23,13 @@ exports.post_shops_write = async (req, res) => {
 
 exports.get_shops_detail = async (req, res) => {
   try {
-    const shop = await models.Shops.findByPk(req.params.id);
+    // const shop = await models.Shops.findByPk(req.params.id);
+    const shop = await models.Shops.findeOne({
+      where: {
+        id: req.params.id,
+      },
+      includes: ["Menu"],
+    });
     res.render("admin/detail.html", { shop });
   } catch (e) {
     console.log(e);
