@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   const Shops = sequelize.define("Shops", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, comment: "상점명" },
+    thumbnail: { type: DataTypes.STRING, comment: "상점사진" },
     address: { type: DataTypes.STRING, comment: "주소" },
     location: { type: DataTypes.STRING, comment: "상세주소" },
     phone: { type: DataTypes.STRING, comment: "전화번호" },

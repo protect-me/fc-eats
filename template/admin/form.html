@@ -2,11 +2,15 @@
 {% extends "layout/base.html" %}
 
 {% block content -%}
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <table class="table table-bordered">
             <tr>
               <th>이름</th>
               <td><input type="text" name="name" class="form-control" value="{{ shop.name }}"  placeholder="패캠 파스타"/></td>
+            </tr>
+            <tr>
+              <th>섬네일</th>
+              <td><input type="file" name="thumbnail" /></td>
             </tr>
             <tr>
               <th>주소</th>

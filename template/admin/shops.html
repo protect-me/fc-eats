@@ -12,7 +12,7 @@
         {% for shop in shops %}
         <tr>
             <td>
-                <a href="/admin/shops/detail/{{  shop.id }}">{{ shop.name }}</a>
+                <a href="/admin/shops/detail/{{ shop.id }}">{{ shop.name }}</a>
             </td>
             <td>
                 {{ shop.dateFormat( shop.createdAt ) }}

@@ -14,6 +14,7 @@ exports.get_shops_write = (_, res) => {
 
 exports.post_shops_write = async (req, res) => {
   try {
+    req.body.thumbnail = req.file ? req.file.filename : "";
     await models.Shops.create(req.body);
     res.redirect("/admin/shops");
   } catch (e) {
