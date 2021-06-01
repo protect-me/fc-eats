@@ -31,7 +31,11 @@ router.get("/shops/detail/:id", ctrl.get_shops_detail);
 
 router.get("/shops/edit/:id", ctrl.get_shops_edit);
 
-router.post("/shops/edit/:id", ctrl.post_shops_edit);
+router.post(
+  "/shops/edit/:id",
+  upload.single("thumbnail"),
+  ctrl.post_shops_edit
+);
 
 router.get("/shops/delete/:id", ctrl.get_shops_delete);
 
