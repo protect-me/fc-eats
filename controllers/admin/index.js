@@ -2,9 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const ctrl = require("./admin.ctrl");
 
-// csrf 설정
-const csrf = require("csurf");
-const csrfProtection = csrf({ cookie: true });
+const csrfProtection = require("../../middleware/csrf");
 
 const upload = require("../../middleware/multer");
 
