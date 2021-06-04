@@ -4,6 +4,12 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
+const flash = require("connect-flash");
+
+// passport 관련
+const passport = require("passport");
+const session = require("express-session");
+
 // db 관련
 const db = require("./models");
 
@@ -16,6 +22,9 @@ class App {
 
     // 뷰엔진 셋팅
     this.setViewEngine();
+
+    // 세선설정
+    this.setSession();
 
     // 미들웨어 셋팅
     this.setMiddleWare();
@@ -42,7 +51,7 @@ class App {
       .authenticate()
       .then(() => {
         console.log("Connection has been established successfully.");
-        return db.sequelize.sync();
+        // return db.sequelize.sync();
       })
       .then(() => {
         console.log("DB Sync complete.");
@@ -65,6 +74,27 @@ class App {
       autoescape: true,
       express: this.app,
     });
+  }
+
+  setSession() {
+    //session 관련 셋팅
+    this.app.use(
+      session({
+        secret: "deadpool", // secret key
+        resave: false, // 다시 저장할지 여부
+        saveUninitialized: true, // 초기화하지 않고 저장하는지 여부
+        cookie: {
+          maxAge: 2000 * 60 * 60, // 지속시간 2시간
+        },
+      })
+    );
+
+    //passport 적용
+    this.app.use(passport.initialize());
+    this.app.use(passport.session());
+
+    //플래시 메시지 관련
+    this.app.use(flash());
   }
 
   setStatic() {
