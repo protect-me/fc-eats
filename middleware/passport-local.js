@@ -17,7 +17,7 @@ passport.use(
           username,
           password: passwordHash(password),
         },
-        // attributes: { exclude: ['password'] }
+        attributes: { exclude: ["password"] }, // 사용자 비밀번호 가리기
       });
 
       if (!user) {
@@ -40,6 +40,11 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((user, done) => {
   console.log("deserializeUser");
+
+  // 사용자 비밀번호 가리기
+  // 상단의 attributes: { exclude: ["password"] }, 에서 처리하거나 여기서 하거나
+  // user.password = "";
+
   done(null, user);
 });
 
