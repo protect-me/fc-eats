@@ -99,6 +99,7 @@ class App {
 
   setStatic() {
     this.app.use("/uploads", express.static("uploads"));
+    this.app.use("/static", express.static("static"));
   }
 
   setLocals() {

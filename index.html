@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/innks/NanumSquareRound/master/nanumsquareround.min.css">
+  <script src="https://use.fontawesome.com/cfe2d0ff32.js"></script>
+  <link rel="stylesheet" href="/static/css/common.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <title>패캠 EATS</title>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- header -->
+    <header class="container header">
+      <div class="row">
+        <div class="col-xs-10">
+          <h1 class="logo sub-title2 font-nanum">패캠 <span>EATS</span></h1>
+        </div>
+        <div class="col-xs-2">
+          <button type="button" class="btn-toggle-snb pull-right">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+            <span class="a11y-hidden">사이드 메뉴</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- main -->
+    <main class="container main">
+      <section class="row search">
+        <div class="col-xs-12">
+          <h2 class="h6 title">주위에 50개의 식당이 있어요</h2>
+          <div class="input-group searchInputGroup">
+            <label for="searchInput" class="a11y-hidden">식당 검색</label>
+            <input type="text" id="searchInput" class="form-control " placeholder="식당이름으로 검색해보세요">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <span class="a11y-hidden">검색하기</span>
+              </button>
+            </span>
+          </div>
+          <ul class="hash-tag body2">
+            <li><a href="#">#하우스</a></li>
+            <li><a href="#">#프로그래밍</a></li>
+            <li><a href="#">#교육</a></li>
+          </ul>
+        </div>
+      </section>
+      <section class="row map">
+        <div class="col-xs-8">
+          <h2 class="sub-title1">가까운 음식점</h2>
+          <p class="body1">근처에 가까운 음식점이 있어요.</p>
+        </div>
+        <div class="col-xs-4">
+          <button type="button" class="pull-right btn btn-point btn-line btn-sm">
+            지도에서 보기
+          </button>
+        </div>
+        <div class="col-xs-12 map-area">
+          <div class="pointer">음식점 위치</div>
+          <div class="user-pointer">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <span class="a11y-hidden">내 위치</span>
+          </div>
+        </div>
+      </section>
+      <section class="row restaurant">
+        <div class="col-xs-7 col-xs-offset-5">
+          <button type="button" class="btn btn-link btn-sort active">
+            <i class="fa fa-map" aria-hidden="true"></i>
+            <i class="fa fa-arrows-h" aria-hidden="true"></i>
+            <span>거리순</span>
+          </button>
+          <button type="button" class="btn btn-link btn-sort">
+            <i class="fa fa-heart" aria-hidden="true"></i>
+            <span>인기순</span>
+          </button>
+        </div>
+        <div class="col-xs-12">
+          <h2 class="a11y-hidden">식당 리스트</h2>
+          <ul class="row restaurant-list">
+            <li class="col-xs-6">
+              <a href="">
+                <div class="thumb">
+                  <img src="/static/images/thumb.jpg" alt="">
+                </div>
+                <h3 class="name sub-title2">패캠식당</h3>
+                <p class="address body2">미왕빌딩 15층</p>
+              </a>
+            </li>
+            <li class="col-xs-6">
+              <a href="">
+                <div class="thumb">
+                  <img src="/static/images/thumb.jpg" alt="">
+                </div>
+                <h3 class="name sub-title2">패캠식당</h3>
+                <p class="address body2">미왕빌딩 15층</p>
+              </a>
+            </li>
+            <li class="col-xs-6">
+              <a href="">
+                <div class="thumb">
+                  <img src="/static/images/thumb.jpg" alt="">
+                </div>
+                <h3 class="name sub-title2">패캠식당</h3>
+                <p class="address body2">미왕빌딩 15층</p>
+              </a>
+            </li>
+            <li class="col-xs-6">
+              <a href="">
+                <div class="thumb">
+                  <img src="/static/images/thumb.jpg" alt="">
+                </div>
+                <h3 class="name sub-title2">패캠식당</h3>
+                <p class="address body2">미왕빌딩 15층</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    
+    <!-- restaurant detail -->
+    <main class="container detail" hidden>
+      <section class="row img-slider">
+        <div class="col-xs-12">
+          <h2 class="a11y-hidden">이미지 슬라이더</h2>
+          <button type="button" class="btn-prev">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            <span class="a11y-hidden">이전</span>
+          </button>
+          <button type="button" class="btn-next">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <span class="a11y-hidden">다음</span>
+          </button>
+          <ul class="indicator">
+            <li class="active"><a href="">1번째</a></li>
+            <li><a href="">2번째</a></li>
+            <li><a href="">3번째</a></li>
+            <li><a href="">4번째</a></li>
+            <li><a href="">5번째</a></li>
+          </ul>
+        </div>
+      </section>
+      <section class="row restaurant-info">
+        <div class="col-xs-12 name">
+          <h2 class="h6">숙이네 조개전골</h2>
+          <button type="button" class="btn btn-link btn-ghost btn-share">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+            <span class="a11y-hidden">공유하기</span>
+          </button>
+        </div>
+        <ul class="col-xs-12 info1 body1">
+          <li>서울 관악구</li>
+          <li>02-319-5600</li>
+          <li>
+            <button type="button" class="btn btn-link btn-like">
+              <i class="fa fa-heart" aria-hidden="true"></i>
+              <span>10</span>
+            </button>
+          </li>
+        </ul>
+      </section>
+      <section class="row menu-board">
+        <div class="col-xs-12">
+          <div class="menu-box">
+            <h2 class="sub-title1 font-nanum title">대표 메뉴</h2>
+            <ul class="menu-list">
+              <li class="select"><a href="">
+                <h3 class="sub-title2">이탈리안 비엠티 (15cm 세트)</h3>
+                <p class="body2">8,100원</p>
+              </a></li>
+              <li><a href="">
+                <h3 class="sub-title2">이탈리안 비엠티 (15cm 세트)</h3>
+                <p class="body2">8,100원</p>
+              </a></li>
+              <li><a href="">
+                <h3 class="sub-title2">이탈리안 비엠티 (15cm 세트)</h3>
+                <p class="body2">8,100원</p>
+              </a></li>
+              <li><a href="">
+                <h3 class="sub-title2">이탈리안 비엠티 (15cm 세트)</h3>
+                <p class="body2">8,100원</p>
+              </a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section class="row restaurant-info2 body2">
+        <ul class="col-xs-12">
+          <li>
+            <i class="fa fa-check" aria-hidden="true"></i>
+            <span class="textPrimary">위치</span>
+            <span>서울시 강남구</span>
+          </li>
+          <li>
+            <i class="fa fa-check" aria-hidden="true"></i>
+            <span class="textPrimary">운영시간</span>
+            <span>8시 ~ 20시</span>
+          </li>
+          <li>
+            <i class="fa fa-check" aria-hidden="true"></i>
+            <span class="textPrimary">연락처</span>
+            <span>010-1234-5678</span>
+          </li>
+        </ul>
+      </section>
+      <section class="row restaurant-map">
+        <div class="col-xs-12">
+          <div class="map-area">
+            <div class="pointer">음식점 위치</div>
+            <div class="user-pointer">
+              <i class="fa fa-user" aria-hidden="true"></i>
+              <span class="a11y-hidden">내 위치</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- join -->
+    <main class="container join" hidden>
+      <section class="row">
+        <div class="col-xs-12">
+          <h2 class="a11y-hidden">회원가입</h2>
+          <button type="button" class="btn btn-lg btn-point btn-line btn-block textSecondary">페이스북으로 가입하기</button>
+          <span class="divider body2">또는</span>
+          <ul class="join-input-item">
+            <li class="form-group has-feedback">
+              <label class="control-label sr-only" for="inputEmail">이메일</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+                <input type="text" class="input-lg form-control" id="inputEmail" aria-describedby="inputEmail" placeholder="이메일을 입력하세요">
+              </div>
+            </li>
+            <li class="form-group has-feedback">
+              <label class="control-label sr-only" for="inputUserName">이름</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                <input type="text" class="input-lg form-control" id="inputUserName" aria-describedby="inputUserName" placeholder="이름을 입력하세요">
+              </div>
+            </li>
+            <li class="form-group has-feedback">
+              <label class="control-label sr-only" for="inputPassword">비밀번호</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                <input type="text" class="input-lg form-control" id="inputPassword" aria-describedby="inputPassword" placeholder="비밀번호를 입력하세요">
+              </div>
+            </li>
+            <li class="form-group has-feedback">
+              <label class="control-label sr-only" for="inputPasswordConfirm">비밀번호 확인</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                <input type="text" class="input-lg form-control" id="inputPasswordConfirm" aria-describedby="inputPasswordConfirm" placeholder="비밀번호를 다시 입력하세요">
+              </div>
+            </li>
+          </ul>
+          <div class="checkbox terms-check body2">
+            <label>
+              <input type="checkbox" value="">
+              이용약관 및 개인정보 수집 및 이용에 동의합니다.
+            </label>
+          </div>
+          <button type="button" class="btn btn-lg btn-main btn-fill btn-block">회원 가입하기</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- footer -->
+    <footer class="container footer">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="font-nanum sub-title2 text-secondary">패캠 EATS</h2>
+          <ul class="caption">
+            <li class="address">서울시 강남구 강남대로 364 미왕빌딩 15층</li>
+            <li class="tel"><span>Tel. </span>02-501-9399</li>
+            <li class="mail"><span>Mail. </span>help@fastcampus.co.kr</li>
+          </ul>
+          <p class="caption">copyright 패캠 EATS All Right Reserved</p>
+        </div>
+      </div>
+    </footer>
+
+    
+    <!-- snb -->
+    <div class="container snb logout" hidden>
+      <div class="row">
+        <div class="col-xs-9 col-xs-offset-3 snb-bg">
+          <div class="snb-title">
+            <h2 class="sub-title1">로그인 하세요.</h2>
+            <button type="button" class="btn btn-closed">
+              <i class="fa fa-times" aria-hidden="true"></i>
+              <span class="a11y-hidden">닫기</span>
+            </button>
+          </div>
+          <div class="contents-area login-before">
+            <p class="body1">모든 서비스를 이용하기 위해서는 로그인 하셔야 합니다.</p>
+            <button type="button" class="btn btn-point btn-line btn-block btn-lg btn-login">로그인</button>
+            <span class="divider">또는</span>
+            <button type="button" class="btn btn-main btn-fill btn-block btn-lg btn-join">회원가입</button>
+          </div>
+          <div class="contents-area login-after">
+            <ul class="login-menu sub-title2">
+              <li><a href="">
+                <i class="fa fa-file-text" aria-hidden="true"></i>
+                주문현황
+              </a></li>
+              <li><a href="">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+                나의 찜 목록
+              </a></li>
+            </ul>
+            <button type="button" class="btn btn-default btn-block btn-lg">로그아웃</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- cart -->
+    <!-- 쓸때는 hidden 클래스를 제거하세요. -->
+    <a href="http://" class="btn-cart hidden" >
+      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+      <i class="cart-item-counter">1</i>
+    </a>
+
+    <!-- delivery check -->
+    <div class="container delivery-check" hidden>
+      <div class="row">
+        <div class="col-xs-12 sub-title1">
+          맛있는 버거세트가 이동중입니다.
+        </div>
+      </div>
+    </div>
+  </div>  
+</body>
+</html>
