@@ -105,7 +105,8 @@ class App {
   setLocals() {
     // 템플릿 변수
     this.app.use((req, res, next) => {
-      this.app.locals.isLogin = true;
+      this.app.locals.isLogin = req.isAuthenticated();
+      this.app.locals.currentUser = req.user;
       this.app.locals.req_path = req.path;
       next();
     });
