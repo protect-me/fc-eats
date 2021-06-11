@@ -6,10 +6,6 @@ const server = app.listen(port, function () {
 });
 const listen = require("socket.io");
 const io = listen(server);
-
-io.on("connection", (socket) => {
-  console.log("소켓서버접속");
-  socket.on("client message", (data) => {
-    io.emit("server message", data.message);
-  });
-});
+// const socketConnection = require("./helpers/socketConnection");
+// socketConnection(io);
+require("./helpers/socketConnection")(io);
