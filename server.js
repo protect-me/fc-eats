@@ -8,4 +8,7 @@ const listen = require("socket.io");
 const io = listen(server);
 // const socketConnection = require("./helpers/socketConnection");
 // socketConnection(io);
+io.use((socket, next) => {
+  app.sessionMiddleWare(socket.request, socket.request.res, next);
+});
 require("./helpers/socketConnection")(io);
