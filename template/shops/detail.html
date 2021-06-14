@@ -33,7 +33,7 @@
   </section>
   <section class="row restaurant-info">
     <div class="col-xs-12 name">
-      <h2 class="h6">{{ shop.name }}</h2>
+      <h2 class="h6 shop-title" shop_id="{{ shop.id }}">{{ shop.name }}</h2>
       <button type="button" class="btn btn-link btn-ghost btn-share">
         <i class="fa fa-share-alt" aria-hidden="true"></i>
         <span class="a11y-hidden">공유하기</span>
@@ -56,9 +56,14 @@
         <h2 class="sub-title1 font-nanum title">대표 메뉴</h2>
         <ul class="menu-list">
 
-
           {% for menu in shop.Menu %}
-            <li><a href="">
+            <li><a 
+              href="#"
+              menu_id="{{ menu.id }}"
+              name="{{ menu.name }}"
+              price="{{ menu.price }}"
+              class="getCart"
+              >
               <h3 class="sub-title2">{{ menu.name }}</h3>
               <p class="body2">{{ menu.price }}</p>
             </a></li>
@@ -104,5 +109,46 @@
   </section>
 </main>
 
+<!-- cart -->
+<a href="http://" class="btn-cart" >
+  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+  <i class="cart-item-counter">0</i>
+</a>
+
+
+
+<script>
+  $(document).ready(function(){
+   $('.getCart').click(function(e){  
+     e.preventDefault(); // 링크 이동 방지
+     if(confirm('장바구니에 담겠습니까?')){       
+       //장바구니에 담을 메뉴 ID, 이름, 가격을 받는다
+       //var shop_id = {{ shop.id }}; // nunjucks
+         const shopTitle = document.querySelector(".shop-title")
+         var shop_id = shopTitle.getAttribute("shop_id");
+         var menu_id = $(this).attr('menu_id');
+         var name = $(this).attr('name');
+         var price = $(this).attr('price');
+         var cartList = {};
+  
+         if( getCookie('cartList') ){
+             //쿠키에서 검색후 있으면 json 파싱함
+             cartList = JSON.parse(getCookie('cartList'));
+         }
+        
+         cartList[menu_id] = {
+           shop_id,
+           name,
+           price
+         };
+  
+         // string으로 저장되는데 나중에 {}형식으로 받기위해 stringfy로 저장
+         setCookieHour( "cartList" , JSON.stringify(cartList) , 3 );
+         alert("장바구니에 담았습니다.");
+     }
+   });
+  });
+  </script>
+  
 
 {% endblock %}
