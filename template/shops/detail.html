@@ -120,6 +120,17 @@
 <script>
   $(document).ready(function(){
 
+
+{% if sameShops %}
+console.log("true!!");
+{% else %}
+console.log("false");
+{% endif %}
+    {% if not sameShops %}
+    alert('장바구니에는 같은 가게의 메뉴만 담을 수 있습니다. 장바구니 삭제후 진행해주세요.');
+    {% endif %}
+
+
     $('.btn-cart').click(function(){
       var cartCounter = parseInt($('.cart-item-counter').text());
       if(!cartCounter){
@@ -149,6 +160,7 @@
         
          cartList[menu_id] = {
            shop_id,
+           menu_id,
            name,
            price
          };
