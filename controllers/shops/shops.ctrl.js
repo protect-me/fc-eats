@@ -5,5 +5,13 @@ exports.get_shops_detail = async (req, res) => {
     where: { id: req.params.id },
     include: ["Menu"],
   });
-  res.render("shops/detail.html", { shop });
+
+  let cartList = {}; //장바구니 리스트
+  let cartLength = 0;
+  if (typeof req.cookies.cartList !== "undefined") {
+    cartList = JSON.parse(unescape(req.cookies.cartList));
+    cartLength = Object.keys(cartList).length;
+  }
+
+  res.render("shops/detail.html", { shop, cartLength });
 };
