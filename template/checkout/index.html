@@ -26,8 +26,10 @@
        결제금액 : <span style="color:red"> {{ totalAmount }} </span> 원
    </div>
 
-   <form action="">
-       <h3 class="text-center">배송지정보</h3>
+   <form action="" id="orderForm">
+    <input type="hidden" name="shop_id" value="{{ shop_id }}">
+    <input type="hidden" name="menuArray" value={{ menuArray | dump }}>
+    <h3 class="text-center">배송지정보</h3>
        <table class="table table-bordered table-hover" style="max-width:500px; margin:0 auto;">
            <tbody>
                <tr>
@@ -67,5 +69,79 @@
        </div>
    </form>
  </main>
+
+ <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.2.js"></script>
+<script>
+$(document).ready(function(){
+   $('#orderForm').submit(function(){
+       var amount = {{ totalAmount }};
+       var buyer_email = $('input[name=buyer_email]').val();
+       var buyer_name = $('input[name=buyer_name]').val();
+       var buyer_tel = $('input[name=buyer_tel]').val();
+       var buyer_addr = $('input[name=buyer_addr]').val();
+       var buyer_postcode = $('input[name=buyer_postcode]').val();
+
+       var shop_id = $('input[name=shop_id]').val();
+       var menuArray = $('input[name=menuArray]').val();
+
+       var IMP = window.IMP;
+       IMP.init('imp98589968');
+       //아임포트 사이트에서 받아온다( http://www.iamport.kr/ )
+
+       IMP.request_pay({
+           pg : 'inicis',
+           pay_method : 'card',
+           merchant_uid : 'merchant_' + new Date().getTime(),
+           name : '수업:결제테스트',
+           amount : amount ,
+           buyer_email : buyer_email,
+           buyer_name : buyer_name,
+           buyer_tel : buyer_tel,
+           buyer_addr : buyer_addr,
+           buyer_postcode : buyer_postcode,
+           m_redirect_url : 'http://localhost:3000/checkout/complete'
+       }, function(rsp){
+           if ( rsp.success ) {
+              
+               //요청 성공후 ajax POST요청한다.
+               $.ajax({
+                   url: '/checkout/complete',
+                   type: 'POST',
+                   data : {
+                       imp_uid : rsp.imp_uid,
+                       merchant_uid : rsp.merchant_uid,
+                       paid_amount : rsp.paid_amount,
+                       apply_num : rsp.apply_num,
+                      
+                       buyer_email : buyer_email,
+                       buyer_name : buyer_name,
+                       buyer_tel : buyer_tel,
+                       buyer_addr : buyer_addr,
+                       buyer_postcode : buyer_postcode,
+
+                       menuArray : menuArray,
+                       shop_id : shop_id,
+
+                       status : "결재완료",
+                   }
+               }).done( function(res){
+                   alert("결제가 완료되었습니다.");
+                   document.location.href = "/checkout/success";
+               }).fail( function(error){
+                   console.log(error);
+               });
+
+           } else {
+               let msg = '결제에 실패하였습니다.';
+               msg += '에러내용 : ' + rsp.error_msg;
+               alert(msg);
+           }
+       });
+       return false;
+   });
+});
+</script>
+
+
 {% endblock %}
  
