@@ -98,3 +98,20 @@ exports.remove_menu = async (req, res) => {
     console.log(e);
   }
 };
+
+exports.get_order = async (_, res) => {
+  const orders = await models.Checkout.findAll();
+  res.render("admin/order.html", { orders });
+};
+
+exports.get_order_edit = async (req, res) => {
+  try {
+    const checkout = await models.Checkout.findOne({
+      where: {
+        id: req.params.id,
+      },
+      include: ["Menu", "Shop"],
+    });
+    res.render("admin/order_edit.html", { checkout });
+  } catch (e) {}
+};
