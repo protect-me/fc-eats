@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         model: "CheckoutMenu",
         unique: false,
       },
-      as: "Chekcout",
+      as: "Checkout",
       foreignKey: "menu_id",
       sourceKey: "id",
       constraints: false,
