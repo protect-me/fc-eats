@@ -154,10 +154,28 @@
       }
 
       mapContainer.setCenter( new kakao.maps.LatLng(
-          {{ map_api.default.lat }},
-          {{ map_api.default.lng }}
-      )
+            {{ map_api.default.lat }},
+            {{ map_api.default.lng }}
+        )
       )
 
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(function(position){
+          var lat = position.coords.latitude;
+          var lng = position.coords.longitude;
+          mapContainer.setCenter(new kakao.maps.LatLng(
+            lat ,
+            lng
+          ));
+        }, function(err){
+          if(err.code==1){
+            alert('위치 정보를 허용해주세요.')
+          }else if(err.code==2){
+            alert('사용할수 없는 위치 입니다.')
+          }
+        } , { timeout : 3000 });
+      }else{
+      alert('지도 관련 api 를 불러올수 없습니다');
+      }
     </script>
 {% endblock %}
