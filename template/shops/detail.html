@@ -98,12 +98,10 @@
   </section>
   <section class="row restaurant-map">
     <div class="col-xs-12">
-      <div class="map-area">
-        <div class="pointer">음식점 위치</div>
-        <div class="user-pointer">
-          <i class="fa fa-user" aria-hidden="true"></i>
-          <span class="a11y-hidden">내 위치</span>
-        </div>
+      <div id="map_area">
+        {% if shop.address and shop.geo  %}
+          <div id="map_area" style="width:100%;height:350px; margin:10px 0 50px 0;"></div>
+        {% endif %}
       </div>
     </div>
   </section>
@@ -116,7 +114,42 @@
 </a>
 
 
+<script src="/static/js/kakaomap.js"></script>
+<script>
+{# 주소와 좌표가 존재해야됨 #}
+{% if shop.address and shop.geo  %}
+var lat = {{ shop.geo.coordinates[1] }};
+var lng = {{ shop.geo.coordinates[0] }};
 
+var mapContainer = new kakao.maps.Map(
+   document.getElementById("map_area"),
+   {
+       center: new kakao.maps.LatLng(
+           lat ,
+           lng
+       ), // 지도의 중심좌표
+       level: 3 // 지도의 확대 레벨
+   }
+);
+
+// 마커이미지의 주소입니다   
+var imageSrc = '/static/images/icon_pointer.png';
+
+// 마커 이미지의 이미지 크기 입니다
+var imageSize = new kakao.maps.Size(40, 46);
+
+// 마커 이미지를 생성합니다   
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+// 결과값으로 받은 위치를 마커로 표시합니다
+var marker = new kakao.maps.Marker({
+   map: mapContainer,
+   position: new kakao.maps.LatLng( lat , lng ),
+   image: markerImage
+});
+{% endif %}
+
+</script>
 <script>
   $(document).ready(function(){
 
