@@ -53,6 +53,11 @@ exports.post_shops_edit = async (req, res) => {
   const path = require("path");
   const uploadDir = path.join(__dirname, "../../uploads");
 
+  req.body.geo = {
+    type: "Point",
+    coordinates: [req.body.geo.split(",")[0], req.body.geo.split(",")[1]],
+  };
+
   try {
     const shop = await models.Shops.findByPk(req.params.id);
 

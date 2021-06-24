@@ -58,6 +58,20 @@
               level: 3 // 지도의 확대 레벨
           }
       );
+
+      {# 주소와 좌표가 존재해야됨 #}
+      {% if shop.address and shop.geo  %}
+        $('#map_area').css('height','350px');
+          mapSearchByAddess(
+            mapContainer ,
+            '#map_area',
+            'input[name=geo]' ,  
+            $('input[name=name]') ,
+            $('input[name=address]')
+          );
+      {% endif %}
+
+
        
       $('#map_search').click(function(){
           var $name = $('input[name=name]');
