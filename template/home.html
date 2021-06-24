@@ -37,12 +37,8 @@
             지도에서 보기
           </button>
         </div>
-        <div class="col-xs-12 map-area">
-          <div class="pointer">음식점 위치</div>
-          <div class="user-pointer">
-            <i class="fa fa-user" aria-hidden="true"></i>
-            <span class="a11y-hidden">내 위치</span>
-          </div>
+        <div class="col-xs-12">
+          <div id="map_area" style="width:100%;height:350px; margin:10px 0 50px 0;"></div>
         </div>
       </section>
       <section class="row restaurant">
@@ -100,5 +96,68 @@
         </div>
       </section>
     </main>
-    
+
+    <script src="/static/js/kakaomap.js"></script>
+    <script>
+      var shops = {{ shops | dump | safe }};
+      var mapContainer = new kakao.maps.Map(
+      document.getElementById('map_area'),
+      {
+        center : new kakao.maps.LatLng(
+          {{ map_api.default.lat }},
+          {{ map_api.default.lng }}
+        ),
+        level : 3
+      }
+      )
+
+      var positions = {};
+
+      // 마커이미지의 주소입니다  
+      var imageSrc = '/static/images/icon_pointer.png';
+
+      // 마커 이미지의 이미지 크기 입니다
+      var imageSize = new kakao.maps.Size(40, 46);
+      // 마커 이미지를 생성합니다  
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+      console.log(shops)
+
+      for( var key in shops ){
+        if(shops[key].geo != null){
+          positions[key] = {
+            id : shops[key].id,
+            name : shops[key].name,
+            lat : shops[key].geo.coordinates[1] ,
+            lng : shops[key].geo.coordinates[0]
+          }
+        }
+      }
+
+      for( var key in positions ){
+        var marker = new kakao.maps.Marker({
+          map : mapContainer,
+          position : new kakao.maps.LatLng(
+            positions[key].lat,
+            positions[key].lng
+          ),
+          image : markerImage
+        })
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content :  `<div style="width:150px;text-align:center;padding:6px 2px;"> \
+              <a href="/shops/${positions[key].id}">${positions[key].name}</a>
+        </div>`
+        })
+
+        infowindow.open( mapContainer, marker )
+      }
+
+      mapContainer.setCenter( new kakao.maps.LatLng(
+          {{ map_api.default.lat }},
+          {{ map_api.default.lng }}
+      )
+      )
+
+    </script>
 {% endblock %}
