@@ -13,6 +13,10 @@ exports.get_shops_write = (req, res) => {
 };
 
 exports.post_shops_write = async (req, res) => {
+  req.body.geo = {
+    type: "Point",
+    coordinates: [req.body.geo.split(",")[0], req.body.geo.split(",")[1]],
+  };
   try {
     req.body.thumbnail = req.file ? req.file.filename : "";
     await models.Shops.create(req.body);
