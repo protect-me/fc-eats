@@ -112,6 +112,8 @@ class App {
       this.app.locals.isLogin = req.isAuthenticated();
       this.app.locals.currentUser = req.user;
       this.app.locals.req_path = req.path;
+      // get 변수 받기
+      this.app.locals.req_query = req.query;
       // 지도 API 키
       this.app.locals.map_api = {
         KAKAO_JAVASCRIPT_KEY: process.env.KAKAO_JAVASCRIPT_KEY,
