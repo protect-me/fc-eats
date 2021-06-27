@@ -1,0 +1,40 @@
+{% set title = "찜목록" %}
+{% extends "layout/client.html" %}
+{% block content %}
+<!-- restaurant detail -->
+
+<main class="container detail">
+ <h3 style="padding: 20px 15px">찜한 상점</h3>
+ <div>
+   <table class="table table-bordered">
+     <tr>
+       <th></th>
+       <th>이름</th>
+       <th>주소</th>
+     </tr>
+     {% for shop in shops %}
+     <tr>
+       <td>
+         {% if shop.thumbnail %}
+           <img src="/uploads/{{ shop.thumbnail }}" width="40" alt="">
+         {% endif %}
+       </td>
+       <td>
+         <a href="/shops/{{ shop.id }}">
+           {{ shop.name }}
+         </a>
+       </td>
+       <td>{{ shop.address }}</td>
+     </tr>
+     {% else %}
+     <tr>
+       <td colspan="3">데이터가 없습니다.</td>
+     </tr>
+     {% endfor %}
+   </table>
+ </div>
+ </main>
+
+
+
+{% endblock %}
