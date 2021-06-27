@@ -32,6 +32,20 @@ module.exports = function (sequelize, DataTypes) {
     }
   );
 
+  User.associate = (models) => {
+    // 즐겨찾기 구현
+    User.belongsToMany(models.Shops, {
+      through: {
+        model: "LikesShops",
+        unique: false,
+      },
+      as: "Likes",
+      foreignKey: "user_id",
+      sourceKey: "id",
+      constraints: false,
+    });
+  };
+
   User.beforeCreate((user, _) => {
     user.password = passwordHash(user.password);
   });
