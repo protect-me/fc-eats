@@ -1,4 +1,5 @@
 const models = require("../../models");
+const Shops = require("../../models/Shops");
 
 exports.get_shops_detail = async (req, res) => {
   const shop = await models.Shops.findOne({
@@ -21,4 +22,33 @@ exports.get_shops_detail = async (req, res) => {
   }
 
   res.render("shops/detail.html", { shop, cartLength, sameShops });
+};
+
+exports.post_shops_like = async (req, res) => {
+  try {
+    const shop = await models.Shops.findByPk(req.params.shop_id);
+    const user = await models.User.findByPk(req.user.id);
+
+    const status = await user.addLikes(shop);
+
+    res.json({
+      status,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+exports.delete_shops_like = async (req, res) => {
+  try {
+    const shop = await models.Shops.findByPk(req.params.shop_id);
+    const user = await models.User.findByPk(req.user.id);
+
+    // await Shop.removeLikeUser(user) 아래와 같은 효과
+    await user.removeLikes(shop);
+
+    res.json({
+      message: "success",
+    });
+  } catch (e) {}
 };
