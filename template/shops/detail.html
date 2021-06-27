@@ -42,13 +42,20 @@
     <ul class="col-xs-12 info1 body1">
       <li>{{ shop.address }}</li>
       <li>{{ shop.phone }}</li>
-      <li>
-        <a id="handleLike" shop_id="{{ shop.id }}" class="btn btn-link btn-like">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-          <span>10</span>
-        </a>
-      </li>
-    </ul>
+      {% if isLogin %}
+      <a id="handleLike" shop_id="{{ shop.id }}" class="btn btn-link btn-like
+      {% if active %} active {% endif %}">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        <span>{{ countLike }}</span>
+      </a>
+      {% else %}
+      <a href="/accounts/login" shop_id="{{ shop.id }}" class="btn btn-link btn-like">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+        <span>{{ countLike }}</span>
+      </a>
+      {% endif %}
+
+   </ul>
   </section>
   <section class="row menu-board">
     <div class="col-xs-12">
@@ -165,6 +172,8 @@ var marker = new kakao.maps.Marker({
         .done(function(result){
             if(result.status.length){
               self.addClass('active');
+              var count = parseInt(self.children('span').text());
+              self.children('span').text(count+1);
             }else{
               alert('이미 담았습니다.');
             }
@@ -179,7 +188,9 @@ var marker = new kakao.maps.Marker({
         })
         .done(function(){
             self.removeClass('active');
-        })
+            var count = parseInt(self.children('span').text());
+            self.children('span').text( ( (count==1) ? 0 : count-1 ) );
+          })
         .fail(function(){
             console.log('오류발생');
         })
