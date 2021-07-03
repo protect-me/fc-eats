@@ -22,6 +22,7 @@ module.exports = function (sequelize, DataTypes) {
       buyer_postcode: { type: DataTypes.STRING }, //우편번호
 
       status: { type: DataTypes.STRING }, //결재완료, 배송중 등등
+      user_id: { type: DataTypes.BIGINT.UNSIGNED }, //유저ID
     },
     {
       tableName: "Checkout",
@@ -45,6 +46,9 @@ module.exports = function (sequelize, DataTypes) {
       as: "Shop",
       foreignKey: "shop_id",
       targetKey: "id",
+    });
+    Checkout.belongsTo(models.User,{ 
+      as :'User',  foreignKey: 'user_id', targetKey: 'id'
     });
   };
 

@@ -43,5 +43,6 @@ router.get("/shops/delete/:shop_id/:menu_id", ctrl.remove_menu);
 // 결제 내역
 router.get("/order", ctrl.get_order);
 router.get("/order/edit/:id", ctrl.get_order_edit);
+router.post("/order/edit/:id", ctrl.post_order_edit);
 
 module.exports = router;

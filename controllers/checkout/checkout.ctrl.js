@@ -26,6 +26,57 @@ exports.index = (req, res) => {
   });
 };
 
+exports.get_complete = async (req,res) => {
+
+  const dotenv = require('dotenv');
+  dotenv.config(); //LOAD CONFIG
+ 
+  // 모듈 선언
+  const { Iamporter } = require('iamporter');
+  const iamporter = new Iamporter({
+      apiKey: process.env.IAMPORT_APIKEY ,
+      secret: process.env.IAMPORT_SECRET
+  });
+ 
+  try{
+ 
+      const iamportData = await iamporter.findByImpUid(req.query.imp_uid);
+      const checkout = await models.Checkout.create({
+          imp_uid : iamportData.data.imp_uid,
+          merchant_uid : iamportData.data.merchant_uid,
+          paid_amount : iamportData.data.amount,
+          apply_num : iamportData.data.apply_num,
+         
+          buyer_email : iamportData.data.buyer_email,
+          buyer_name : iamportData.data.buyer_name,
+          buyer_tel : iamportData.data.buyer_tel,
+          buyer_addr : iamportData.data.buyer_addr,
+          buyer_postcode : iamportData.data.buyer_postcode,
+          shop_id : req.query.shop_id,
+          status : "결재완료",
+      });
+ 
+      const menuArray = JSON.parse(req.query.menuArray);
+ 
+      async function asyncSetMenu(menu_id){
+        try{
+          const menu = await models.ShopsMenu.findByPk( menu_id );
+          const status = await checkout.addMenu(menu);
+          if(typeof status == 'undefined'){
+            throw `menu :: ${menu_id}가 존재하지 않습니다.`;
+          }
+        }catch(e){
+          throw e;
+        }
+      }
+      for (const menu_id of menuArray) await asyncSetMenu(menu_id);
+      res.redirect('/checkout/success');
+  }catch(e){
+    console.log(e);
+  }
+ };
+ 
+
 exports.post_complete = async (req, res) => {
   try {
     const checkout = await models.Checkout.create(req.body);
