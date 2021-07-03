@@ -1,10 +1,21 @@
 const models = require("../../models");
 
-exports.get_shops = async (_, res) => {
+exports.get_shops = async (req, res) => {
+  const paginate = require("express-paginate")
   try {
-    const shops = await models.Shops.findAll();
+    const [ shops, totalCount ] = await Promise.all([
+      models.Shops.findAll({
+        limit : req.query.limit,
+        offset : req.offset,
+        order: [['createdAt', "desc"]]
+      }),
+      models.Shops.count()
+    ])
 
-    res.render("admin/shops.html", { shops });
+    const pageCount = Math.ceil( totalCount / req.query.limit );
+    const pages = paginate.getArrayPages(req)( 4 , pageCount, req.query.page);
+
+    res.render("admin/shops.html", { shops, pages, pageCount });
   } catch (e) {}
 };
 

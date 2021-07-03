@@ -2,11 +2,13 @@ const { Router } = require("express");
 const router = Router();
 const ctrl = require("./admin.ctrl");
 
+const paginate = require("express-paginate")
+
 const csrfProtection = require("../../middleware/csrf");
 const upload = require("../../middleware/multer");
 const loginRequired = require("../../middleware/loginRequired");
 
-router.get("/shops", ctrl.get_shops);
+router.get("/shops", paginate.middleware(2, 50), ctrl.get_shops);
 
 // router.use 를 하면 그 아래에 위치하는 코드들은 이 미들웨어를 모두 거치고 실행됨
 // router.use(loginRequired);
