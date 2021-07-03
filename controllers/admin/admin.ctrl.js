@@ -52,12 +52,21 @@ exports.get_shops_detail = async (req, res) => {
   }
 };
 
-exports.get_shops_edit = async (req, res) => {
-  try {
-    const shop = await models.Shops.findByPk(req.params.id);
-    res.render("admin/form.html", { shop, csrfToken: req.csrfToken() });
-  } catch (e) {}
-};
+exports.get_shops_edit = async(req, res) => {
+  try{
+      const shop = await models.Shops.findOne({
+          where : { id : req.params.id},
+          include : [
+              { model : models.Tag, as : 'Tag' }
+          ],
+          order: [
+              [ 'Tag', 'createdAt', 'desc' ]
+          ]
+      });
+      res.render('admin/form.html', { shop , csrfToken : req.csrfToken() });
+  }catch(e){
+  } 
+}
 
 exports.post_shops_edit = async (req, res) => {
   const fs = require("fs");
@@ -149,3 +158,38 @@ exports.post_order_edit = async(req,res) => {
   }
 }
 
+exports.write_tag = async (req, res) => {
+  try {
+      const tag = await models.Tag.findOrCreate({
+          where: {
+              name : req.body.name
+          }
+      });
+
+      const shop = await models.Shops.findByPk(req.body.shop_id);
+      const status = await shop.addTag(tag[0]);
+
+      res.json({
+          status : status,
+          tag : tag[0]
+      })
+
+  } catch (e) {
+      res.json(e)
+  }
+}
+
+exports.delete_tag = async (req, res) => {
+  try {
+      const shop = await models.Shops.findByPk(req.params.shop_id);
+      const tag = await models.Tag.findByPk(req.params.tag_id);
+
+      const result = await shop.removeTag(tag);
+     
+      res.json({
+          result : result
+      });
+  } catch (e) {
+
+  }
+}

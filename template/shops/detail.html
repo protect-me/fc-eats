@@ -5,13 +5,8 @@
 <!-- {{ shop | dump }} -->
 
 <main class="container detail">
-  <section class="row img-slider"
-    {% if not shop.thumbnail %}
-      style="background-image: url(/static/images/thumb.jpg);"
-    {% else %}
-      style="background-image: url(/uploads/{{shop.thumbnail}});"
-    {% endif%}
-  >
+  <section class="row img-slider" {% if not shop.thumbnail %} style="background-image: url(/static/images/thumb.jpg);"
+    {% else %} style="background-image: url(/uploads/{{shop.thumbnail}});" {% endif%}>
     <div class="col-xs-12">
       <h2 class="a11y-hidden">이미지 슬라이더</h2>
       <button type="button" class="btn-prev">
@@ -54,8 +49,12 @@
         <span>{{ countLike }}</span>
       </a>
       {% endif %}
-
-   </ul>
+    </ul>
+    <ul class="col-xs-12 info1 body1">
+      {% for tag in shop.Tag %}
+      <li><a href="/?name={{ tag.name }}">#{{ tag.name }}</a></li>
+      {% endfor %}
+    </ul>
   </section>
   <section class="row menu-board">
     <div class="col-xs-12">
@@ -64,18 +63,12 @@
         <ul class="menu-list">
 
           {% for menu in shop.Menu %}
-            <li><a 
-              href="#"
-              menu_id="{{ menu.id }}"
-              name="{{ menu.name }}"
-              price="{{ menu.price }}"
-              class="getCart"
-              >
+          <li><a href="#" menu_id="{{ menu.id }}" name="{{ menu.name }}" price="{{ menu.price }}" class="getCart">
               <h3 class="sub-title2">{{ menu.name }}</h3>
               <p class="body2">{{ menu.price }}</p>
             </a></li>
           {% else %}
-            <li><a href="">
+          <li><a href="">
               <h3 class="sub-title2">메뉴가 없습니다.</h3>
             </a></li>
           {% endfor %}
@@ -107,7 +100,7 @@
     <div class="col-xs-12">
       <div id="map_area">
         {% if shop.address and shop.geo  %}
-          <div id="map_area" style="width:100%;height:350px; margin:10px 0 50px 0;"></div>
+        <div id="map_area" style="width:100%;height:350px; margin:10px 0 50px 0;"></div>
         {% endif %}
       </div>
     </div>
@@ -115,7 +108,7 @@
 </main>
 
 <!-- cart -->
-<a class="btn-cart" >
+<a class="btn-cart">
   <i class="fa fa-shopping-cart" aria-hidden="true"></i>
   <i class="cart-item-counter">{{cartLength}}</i>
 </a>
@@ -123,77 +116,76 @@
 
 <script src="/static/js/kakaomap.js"></script>
 <script>
-{# 주소와 좌표가 존재해야됨 #}
-{% if shop.address and shop.geo  %}
-var lat = {{ shop.geo.coordinates[1] }};
-var lng = {{ shop.geo.coordinates[0] }};
+  {% if shop.address and shop.geo %}
+  var lat = {{ shop.geo.coordinates[1] }};
+  var lng = {{ shop.geo.coordinates[0] }};
 
-var mapContainer = new kakao.maps.Map(
-   document.getElementById("map_area"),
-   {
-       center: new kakao.maps.LatLng(
-           lat ,
-           lng
-       ), // 지도의 중심좌표
-       level: 3 // 지도의 확대 레벨
-   }
-);
+  var mapContainer = new kakao.maps.Map(
+    document.getElementById("map_area"),
+    {
+      center: new kakao.maps.LatLng(
+        lat,
+        lng
+      ), // 지도의 중심좌표
+      level: 3 // 지도의 확대 레벨
+    }
+  );
 
-// 마커이미지의 주소입니다   
-var imageSrc = '/static/images/icon_pointer.png';
+  // 마커이미지의 주소입니다   
+  var imageSrc = '/static/images/icon_pointer.png';
 
-// 마커 이미지의 이미지 크기 입니다
-var imageSize = new kakao.maps.Size(40, 46);
+  // 마커 이미지의 이미지 크기 입니다
+  var imageSize = new kakao.maps.Size(40, 46);
 
-// 마커 이미지를 생성합니다   
-var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+  // 마커 이미지를 생성합니다   
+  var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-// 결과값으로 받은 위치를 마커로 표시합니다
-var marker = new kakao.maps.Marker({
-   map: mapContainer,
-   position: new kakao.maps.LatLng( lat , lng ),
-   image: markerImage
-});
-{% endif %}
+  // 결과값으로 받은 위치를 마커로 표시합니다
+  var marker = new kakao.maps.Marker({
+    map: mapContainer,
+    position: new kakao.maps.LatLng(lat, lng),
+    image: markerImage
+  });
+  {% endif %}
 
 </script>
 <script>
-  $(document).ready(function(){
-    $('#handleLike').click(function(){
+  $(document).ready(function () {
+    $('#handleLike').click(function () {
       var shop_id = parseInt($(this).attr('shop_id'));
       var self = $(this);
 
       // 좋아요를 누르지 않은 경우
-      if(!$(this).hasClass('active')){
+      if (!$(this).hasClass('active')) {
         $.ajax({
-            url : '/shops/like/'+ shop_id,
-            method : 'post',
+          url: '/shops/like/' + shop_id,
+          method: 'post',
         })
-        .done(function(result){
-            if(result.status.length){
+          .done(function (result) {
+            if (result.status.length) {
               self.addClass('active');
               var count = parseInt(self.children('span').text());
-              self.children('span').text(count+1);
-            }else{
+              self.children('span').text(count + 1);
+            } else {
               alert('이미 담았습니다.');
             }
-        })
-        .fail(function(){
+          })
+          .fail(function () {
             console.log('발생');
-        })
-      }else{
+          })
+      } else {
         $.ajax({
-            url : '/shops/like/'+ shop_id,
-            type : 'delete',
+          url: '/shops/like/' + shop_id,
+          type: 'delete',
         })
-        .done(function(){
+          .done(function () {
             self.removeClass('active');
             var count = parseInt(self.children('span').text());
-            self.children('span').text( ( (count==1) ? 0 : count-1 ) );
+            self.children('span').text(((count == 1) ? 0 : count - 1));
           })
-        .fail(function(){
+          .fail(function () {
             console.log('오류발생');
-        })
+          })
       }
     })
 
@@ -207,50 +199,50 @@ var marker = new kakao.maps.Marker({
     alert('장바구니에는 같은 가게의 메뉴만 담을 수 있습니다. 장바구니 삭제후 진행해주세요.');
     {% endif %}
 
-    $('.btn-cart').click(function(){
+    $('.btn-cart').click(function () {
       var cartCounter = parseInt($('.cart-item-counter').text());
-      if(!cartCounter){
+      if (!cartCounter) {
         alert('장바구니에 담긴 메뉴가 없습니다.');
-      }else{
-        location.href='/cart';
+      } else {
+        location.href = '/cart';
       }
     });
 
 
-   $('.getCart').click(function(e){  
-     e.preventDefault(); // 링크 이동 방지
-     if(confirm('장바구니에 담겠습니까?')){       
-       //장바구니에 담을 메뉴 ID, 이름, 가격을 받는다
-       //var shop_id = {{ shop.id }}; // nunjucks
-         const shopTitle = document.querySelector(".shop-title")
-         var shop_id = shopTitle.getAttribute("shop_id");
-         var menu_id = $(this).attr('menu_id');
-         var name = $(this).attr('name');
-         var price = $(this).attr('price');
-         var cartList = {};
-  
-         if( getCookie('cartList') ){
-             //쿠키에서 검색후 있으면 json 파싱함
-             cartList = JSON.parse(getCookie('cartList'));
-         }
-        
-         cartList[menu_id] = {
-           shop_id,
-           menu_id,
-           name,
-           price
-         };
-  
-         // string으로 저장되는데 나중에 {}형식으로 받기위해 stringfy로 저장
-         setCookieHour( "cartList" , JSON.stringify(cartList) , 3 );
-         
-         $('.cart-item-counter').text( Object.keys(cartList).length );
+    $('.getCart').click(function (e) {
+      e.preventDefault(); // 링크 이동 방지
+      if (confirm('장바구니에 담겠습니까?')) {
+        //장바구니에 담을 메뉴 ID, 이름, 가격을 받는다
+        //var shop_id = {{ shop.id }}; // nunjucks
+        const shopTitle = document.querySelector(".shop-title")
+        var shop_id = shopTitle.getAttribute("shop_id");
+        var menu_id = $(this).attr('menu_id');
+        var name = $(this).attr('name');
+        var price = $(this).attr('price');
+        var cartList = {};
 
-         alert("장바구니에 담았습니다.");
-     }
-   });
+        if (getCookie('cartList')) {
+          //쿠키에서 검색후 있으면 json 파싱함
+          cartList = JSON.parse(getCookie('cartList'));
+        }
+
+        cartList[menu_id] = {
+          shop_id,
+          menu_id,
+          name,
+          price
+        };
+
+        // string으로 저장되는데 나중에 {}형식으로 받기위해 stringfy로 저장
+        setCookieHour("cartList", JSON.stringify(cartList), 3);
+
+        $('.cart-item-counter').text(Object.keys(cartList).length);
+
+        alert("장바구니에 담았습니다.");
+      }
+    });
   });
-  </script>
-  
+</script>
+
 
 {% endblock %}

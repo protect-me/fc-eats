@@ -5,7 +5,7 @@ exports.get_shops_detail = async (req, res) => {
   try {
     const shop = await models.Shops.findOne({
       where: { id: req.params.id },
-      include: ["Menu", "LikeUser"],
+      include: ["Menu", "LikeUser", "Tag"],
     });
 
     let active = false;
