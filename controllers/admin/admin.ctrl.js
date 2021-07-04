@@ -169,6 +169,9 @@ exports.write_tag = async (req, res) => {
       const shop = await models.Shops.findByPk(req.body.shop_id);
       const status = await shop.addTag(tag[0]);
 
+      console.log("status", status);
+      console.log("tag", tag);
+
       res.json({
           status : status,
           tag : tag[0]
